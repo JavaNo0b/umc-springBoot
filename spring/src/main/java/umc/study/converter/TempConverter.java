@@ -11,6 +11,12 @@ public class TempConverter {
                 .testString("This is Test!")
                 .build();
     }
+
+    public static TempResponse.TempExceptionDTO toTempExceptionDTO(Integer flag){
+        return TempResponse.TempExceptionDTO.builder()
+                .flag(flag)
+                .build();
+    }
 }
 
 //이 코드는 TempConverter 클래스 내의 toTempTestDTO 정적 메서드를 통해
