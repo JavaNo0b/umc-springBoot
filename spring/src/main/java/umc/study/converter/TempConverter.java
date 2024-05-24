@@ -3,6 +3,7 @@ package umc.study.converter;
 import umc.study.web.dto.TempResponse;
 
 //TempResponse.TempTestDTO 타입의 객체를 생성하여 반환
+//컨버터 함수 이름은 to<만들려는 대상>
 
 public class TempConverter {
 
