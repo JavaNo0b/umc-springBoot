@@ -23,7 +23,7 @@ public enum SuccessStatus implements BaseCode {
         return ReasonDTO.builder()
                 .message(message)
                 .code(code)
-                .isSuccess(false)
+                .isSuccess(false) //일단 false로 해놓음
                 .build();
     }
 
