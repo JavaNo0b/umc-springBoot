@@ -6,9 +6,13 @@ import umc.study.validation.validator.CategoriesExistValidator;
 
 import java.lang.annotation.*;
 
+//사용자 정의 어노테이션
 @Documented
+//validation을 커스텀 어노테이션을 통해 할 수 있도록 제공하는 어노테이션 /  CategoriesExistValidator라는 클래스를 통해 @ExistCategories가 붙은 대상을 검증
 @Constraint(validatedBy = CategoriesExistValidator.class)
+//어노테이션의 적용 범위를 지정
 @Target( { ElementType.METHOD, ElementType.FIELD, ElementType.PARAMETER })
+//어노테이션의 생명 주기를 지정
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ExistCategories {
 
@@ -17,11 +21,3 @@ public @interface ExistCategories {
     Class<? extends Payload>[] payload() default {};
 }
 
-//<aside>
-//🌟 **@Documented** - ****이 어노테이션은 사용자 정의 어노테이션을 만들 때 붙입니다.
-//
-//        **@Target** - ****이 어노테이션은 어노테이션의 적용 범위를 지정합니다. 각 파라미터의 자세한 역할은 구글링을 해서 찾아보세용.
-//
-//**@Retention** - ****이 어노테이션은 어노테이션의 생명 주기를 지정합니다. 위의 코드는 RUNTIME이기에 실행 하는 동안에만 유효하게 됩니다.
-//
-//</aside>

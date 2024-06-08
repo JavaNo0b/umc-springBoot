@@ -34,10 +34,12 @@ public class MemberCommandServiceImpl implements MemberCommandService{
         Member newMember = MemberConverter.toMember(request);
 
 
+//        카테고리 ID가 유효한지 검증하는 과정 (validation)
         List<FoodCategory> foodCategoryList = request.getPreferCategory().stream()
                 .map(category -> {
                     return foodCategoryRepository.findById(category).orElseThrow(() -> new FoodCategoryHandler(ErrorStatus.FOOD_CATEGORY_NOT_FOUND));
                 }).collect(Collectors.toList());
+
 
         // List<MemberPrefer> 객체를 Converter에서 만들었다.
         List<MemberPrefer> memberPreferList = MemberPreferConverter.toMemberPreferList(foodCategoryList);
