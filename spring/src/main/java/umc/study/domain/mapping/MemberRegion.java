@@ -1,7 +1,9 @@
-package umc.study.domain;
+package umc.study.domain.mapping;
 
 import jakarta.persistence.*;
 import lombok.*;
+import umc.study.domain.Member;
+import umc.study.domain.Region;
 import umc.study.domain.common.BaseEntity;
 
 @Entity
@@ -9,26 +11,24 @@ import umc.study.domain.common.BaseEntity;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class Review extends BaseEntity {
+public class MemberRegion extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, length = 40)
-    private String title;
+    @Column(nullable = false, columnDefinition = "int default 0")
+    private Integer missionNum;
 
-    @Column(nullable = false, columnDefinition = "text")
-    private String body;
-
-    @Column(nullable = false, columnDefinition = "float default 5.0")
-    private Float score;
+    @Column(nullable = false, columnDefinition = "int default 0")
+    private Integer extraPointNum;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "store_id")
-    private Store store;
+    @JoinColumn(name = "region_id")
+    private Region region;
+
 }
