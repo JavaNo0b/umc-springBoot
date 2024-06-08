@@ -16,7 +16,7 @@ import java.util.List;
 public class CategoriesExistValidator implements ConstraintValidator<ExistCategories, List<Long>> {
     //ExistCategories 어노테이션에 대한 로직을 담을 것이며 검증 대상이 List<Long>임을 명시
 
-    private final FoodCategoryService foodCategoryService;
+    private final FoodCategoryRepository foodCategoryRepository;
 
     @Override
     public void initialize(ExistCategories constraintAnnotation) {
@@ -26,7 +26,7 @@ public class CategoriesExistValidator implements ConstraintValidator<ExistCatego
     @Override
     public boolean isValid(List<Long> values, ConstraintValidatorContext context) {
         boolean isValid = values.stream()
-                .allMatch(value -> foodCategoryService.existsById(value));
+                .allMatch(value -> foodCategoryRepository.existsById(value));
 
         if (!isValid) {
             context.disableDefaultConstraintViolation();
