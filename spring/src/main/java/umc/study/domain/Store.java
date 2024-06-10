@@ -24,7 +24,7 @@ public class Store extends BaseEntity {
     @Column(nullable = false, length = 40)
     private String address;
 
-    @Column(nullable = false, columnDefinition = "float default 5.0")
+    @Column(columnDefinition = "float default 5.0")
     private Float score;
 
     @OneToMany(mappedBy = "store", cascade = CascadeType.ALL)
