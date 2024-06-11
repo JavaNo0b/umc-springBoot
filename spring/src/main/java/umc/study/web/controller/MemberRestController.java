@@ -5,15 +5,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import umc.study.apiPayload.ApiResponse;
 import umc.study.converter.MemberConverter;
+import umc.study.converter.MemberMissionConverter;
 import umc.study.converter.ReviewConverter;
 import umc.study.domain.Member;
 import umc.study.domain.Review;
+import umc.study.domain.mapping.MemberMission;
 import umc.study.service.MemberCommandService;
 import umc.study.service.MemberCommandServiceImpl;
-import umc.study.web.dto.MemberRequestDTO;
-import umc.study.web.dto.MemberResponseDTO;
-import umc.study.web.dto.ReviewRequestDTO;
-import umc.study.web.dto.ReviewResponseDTO;
+import umc.study.web.dto.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -35,5 +34,13 @@ public class MemberRestController {
 
         Review newReview =  memberCommandService.createReview(request, storeId, memberId);
         return ApiResponse.onSuccess(ReviewConverter.toCreateResultDTO(newReview));
+    }
+
+    @PostMapping("/missions/{missionId}/challenging")
+    public ApiResponse<MemberMissionResponseDTO.ChallengeResultDTO> challenge(@PathVariable Long missionId,
+                                                                              @RequestParam Long memberId){
+
+        MemberMission newChallenge = memberCommandService.createChallenge(missionId, memberId);
+        return ApiResponse.onSuccess(MemberMissionConverter.toChallengeResultDTO(newChallenge));
     }
 }

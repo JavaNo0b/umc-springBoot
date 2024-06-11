@@ -7,12 +7,11 @@ import umc.study.apiPayload.code.status.ErrorStatus;
 import umc.study.apiPayload.exception.GeneralException;
 import umc.study.apiPayload.exception.handler.FoodCategoryHandler;
 import umc.study.converter.MemberConverter;
+import umc.study.converter.MemberMissionConverter;
 import umc.study.converter.MemberPreferConverter;
 import umc.study.converter.ReviewConverter;
-import umc.study.domain.FoodCategory;
-import umc.study.domain.Member;
-import umc.study.domain.Review;
-import umc.study.domain.Store;
+import umc.study.domain.*;
+import umc.study.domain.mapping.MemberMission;
 import umc.study.domain.mapping.MemberPrefer;
 import umc.study.repository.*;
 import umc.study.web.dto.MemberRequestDTO;
@@ -33,6 +32,10 @@ public class MemberCommandServiceImpl implements MemberCommandService{
     private final ReviewRepository reviewRepository;
 
     private final StoreRepository storeRepository;
+
+    private final MissionRepository missionRepository;
+
+    private final MemberMissionRepository memberMissionRepository;
 
     @Override
     @Transactional
@@ -67,6 +70,18 @@ public class MemberCommandServiceImpl implements MemberCommandService{
         Review newReview = ReviewConverter.toReview(request, store, member);
 
         return reviewRepository.save(newReview);
+    }
+
+    @Override
+    @Transactional
+    public MemberMission createChallenge(Long missionId, Long memberId) {
+
+        Member member = memberRepository.findById(memberId).orElseThrow(() -> new GeneralException(ErrorStatus.MEMBER_NOT_FOUND));
+        Mission mission = missionRepository.findById(missionId).orElseThrow(() -> new GeneralException(ErrorStatus.Mission_ID_NOT_FOUND));
+
+        MemberMission newChallenge = MemberMissionConverter.toMemberMission(mission, member);
+
+        return memberMissionRepository.save(newChallenge);
     }
 
 }
