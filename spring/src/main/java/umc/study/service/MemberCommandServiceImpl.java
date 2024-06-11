@@ -4,15 +4,19 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import umc.study.apiPayload.code.status.ErrorStatus;
+import umc.study.apiPayload.exception.GeneralException;
 import umc.study.apiPayload.exception.handler.FoodCategoryHandler;
 import umc.study.converter.MemberConverter;
 import umc.study.converter.MemberPreferConverter;
+import umc.study.converter.ReviewConverter;
 import umc.study.domain.FoodCategory;
 import umc.study.domain.Member;
+import umc.study.domain.Review;
+import umc.study.domain.Store;
 import umc.study.domain.mapping.MemberPrefer;
-import umc.study.repository.FoodCategoryRepository;
-import umc.study.repository.MemberRepository;
+import umc.study.repository.*;
 import umc.study.web.dto.MemberRequestDTO;
+import umc.study.web.dto.ReviewRequestDTO;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,6 +29,10 @@ public class MemberCommandServiceImpl implements MemberCommandService{
     private final MemberRepository memberRepository;
 
     private final FoodCategoryRepository foodCategoryRepository;
+
+    private final ReviewRepository reviewRepository;
+
+    private final StoreRepository storeRepository;
 
     @Override
     @Transactional
@@ -47,6 +55,18 @@ public class MemberCommandServiceImpl implements MemberCommandService{
         memberPreferList.forEach(memberPrefer -> {memberPrefer.setMember(newMember);});
 
         return memberRepository.save(newMember);
+    }
+
+    @Override
+    @Transactional
+    public Review createReview(ReviewRequestDTO.CreateDTO request, Long storeId, Long memberId) {
+
+        Member member = memberRepository.findById(memberId).orElseThrow(() -> new GeneralException(ErrorStatus.MEMBER_NOT_FOUND));
+        Store store = storeRepository.findById(storeId).orElseThrow(() -> new GeneralException(ErrorStatus.STORE_ID_NOT_FOUND));
+
+        Review newReview = ReviewConverter.toReview(request, store, member);
+
+        return reviewRepository.save(newReview);
     }
 
 }
