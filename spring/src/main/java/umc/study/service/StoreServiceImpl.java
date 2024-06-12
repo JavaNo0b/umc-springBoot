@@ -21,6 +21,11 @@ public class StoreServiceImpl implements StoreService{
     private final RegionRepository regionRepository;
 
     @Override
+    public boolean existStore(Long id){
+        return storeRepository.existsById(id);
+    }
+
+    @Override
     @Transactional
     public Store joinStore(StoreRequestDTO.JoinStoreDTO request, Long regionId){
 

@@ -8,6 +8,12 @@ import umc.study.web.dto.MemberRequestDTO;
 import umc.study.web.dto.ReviewRequestDTO;
 
 public interface MemberCommandService {
+    boolean existMemberId(Long id);
+
+    boolean existMemberMission(Long id);
+
+    boolean isChallengeMission(Long missionId);
+
     Member joinMember(MemberRequestDTO.JoinDTO request);
 
     @Transactional

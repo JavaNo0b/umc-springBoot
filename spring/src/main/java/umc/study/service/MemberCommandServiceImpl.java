@@ -11,6 +11,7 @@ import umc.study.converter.MemberMissionConverter;
 import umc.study.converter.MemberPreferConverter;
 import umc.study.converter.ReviewConverter;
 import umc.study.domain.*;
+import umc.study.domain.enums.MissionStatus;
 import umc.study.domain.mapping.MemberMission;
 import umc.study.domain.mapping.MemberPrefer;
 import umc.study.repository.*;
@@ -36,6 +37,26 @@ public class MemberCommandServiceImpl implements MemberCommandService{
     private final MissionRepository missionRepository;
 
     private final MemberMissionRepository memberMissionRepository;
+
+
+    @Override
+    public boolean existMemberId(Long id) {
+        return memberRepository.existsById(id);
+    }
+
+    @Override
+    public boolean existMemberMission(Long id) {
+        return memberMissionRepository.existsMemberMissionByMissionId(id);
+    }
+
+    // memberId는 일단 1로 고정해놓고 missionID를 받아 해당 멤버와 미션이 맞는 멤버미션을 찾아 도전중인지 확인
+    @Override
+    public boolean isChallengeMission(Long missionId) {
+        MemberMission memberMission = memberMissionRepository.findMemberMissionByMemberIdAndMissionId(1L, missionId);
+        if (memberMission.getStatus() == MissionStatus.CHALLENGING){
+            return true;
+        } else return false;
+    }
 
     @Override
     @Transactional

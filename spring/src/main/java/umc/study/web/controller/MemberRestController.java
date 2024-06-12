@@ -2,6 +2,7 @@ package umc.study.web.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import umc.study.apiPayload.ApiResponse;
 import umc.study.converter.MemberConverter;
@@ -12,8 +13,12 @@ import umc.study.domain.Review;
 import umc.study.domain.mapping.MemberMission;
 import umc.study.service.MemberCommandService;
 import umc.study.service.MemberCommandServiceImpl;
+import umc.study.validation.annotation.CheckMissionStatus;
+import umc.study.validation.annotation.ExistMember;
+import umc.study.validation.annotation.ExistStore;
 import umc.study.web.dto.*;
 
+@Validated
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/members")
@@ -29,16 +34,16 @@ public class MemberRestController {
 
     @PostMapping("/stores/{storeId}/reviews")
     public ApiResponse<ReviewResponseDTO.CreateResultDTO> create(@RequestBody @Valid ReviewRequestDTO.CreateDTO request,
-                                                                 @PathVariable Long storeId,
-                                                                 @RequestParam Long memberId){
+                                                                 @ExistStore @PathVariable Long storeId,
+                                                                 @ExistMember @RequestParam Long memberId){
 
         Review newReview =  memberCommandService.createReview(request, storeId, memberId);
         return ApiResponse.onSuccess(ReviewConverter.toCreateResultDTO(newReview));
     }
 
     @PostMapping("/missions/{missionId}/challenging")
-    public ApiResponse<MemberMissionResponseDTO.ChallengeResultDTO> challenge(@PathVariable Long missionId,
-                                                                              @RequestParam Long memberId){
+    public ApiResponse<MemberMissionResponseDTO.ChallengeResultDTO> challenge(@PathVariable @CheckMissionStatus Long missionId,
+                                                                              @RequestParam @ExistMember Long memberId){
 
         MemberMission newChallenge = memberCommandService.createChallenge(missionId, memberId);
         return ApiResponse.onSuccess(MemberMissionConverter.toChallengeResultDTO(newChallenge));
