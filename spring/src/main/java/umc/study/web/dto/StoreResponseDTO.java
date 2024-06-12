@@ -13,7 +13,7 @@ public class StoreResponseDTO {
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class JoinResultDTO{
+    public static class JoinStoreResultDTO{
         Long storeId;
         LocalDateTime createdAt;
     }

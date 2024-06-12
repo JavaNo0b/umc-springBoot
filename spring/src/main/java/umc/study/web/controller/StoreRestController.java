@@ -17,9 +17,9 @@ public class StoreRestController {
     private final StoreService storeService;
 
     @PostMapping("/")
-    public ApiResponse<StoreResponseDTO.JoinResultDTO> joinStore(@RequestParam Long regionId,
-                                                                 @RequestBody StoreRequestDTO.JoinDTO request) {
+    public ApiResponse<StoreResponseDTO.JoinStoreResultDTO> joinStore(@RequestParam Long regionId,
+                                                                 @RequestBody StoreRequestDTO.JoinStoreDTO request) {
         Store newStore = storeService.joinStore(request, regionId);
-        return ApiResponse.onSuccess(StoreConverter.toJoinResultDTO(newStore));
+        return ApiResponse.onSuccess(StoreConverter.toJoinStoreResultDTO(newStore));
     }
 }
