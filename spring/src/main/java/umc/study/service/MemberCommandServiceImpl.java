@@ -45,6 +45,11 @@ public class MemberCommandServiceImpl implements MemberCommandService{
     }
 
     @Override
+    public boolean existMission(Long id) {
+        return missionRepository.existsById(id);
+    }
+
+    @Override
     public boolean existMemberMission(Long id) {
         return memberMissionRepository.existsMemberMissionByMissionId(id);
     }

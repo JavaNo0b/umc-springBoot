@@ -22,19 +22,46 @@ public class MissionStatusCheckValidator implements ConstraintValidator<CheckMis
     @Override
     public boolean isValid(Long value, ConstraintValidatorContext context) {
 
-        // 미션아이디를 넣어 해당하는 멤버미션이 있는 지 확인
-        boolean isValid = memberCommandService.existMemberMission(value);
+        boolean isMissionValid = memberCommandService.existMission(value);
 
-        //미션 아이디를 넣고 멤버 1과 겹치는 멤버미션이 있는지 확인하고 도전중이 아니면 false
-        boolean isChallenge = memberCommandService.isChallengeMission(value);
+        if (!isMissionValid) {
+            context.disableDefaultConstraintViolation();
+            context.buildConstraintViolationWithTemplate(ErrorStatus.Mission_ID_NOT_FOUND.toString()).addConstraintViolation();
+            return isMissionValid;
+        }else{
+            // 미션아이디를 넣어 해당하는 멤버미션이 있는 지 확인
+            boolean isValid = memberCommandService.existMemberMission(value);
 
-        if (!isValid) {
-            context.disableDefaultConstraintViolation();
-            context.buildConstraintViolationWithTemplate(ErrorStatus.MEMBERMISSION_NOT_FOUND.toString()).addConstraintViolation();
-        } else if (isChallenge) {
-            context.disableDefaultConstraintViolation();
-            context.buildConstraintViolationWithTemplate(ErrorStatus.MEMBERMISSION_CHALLENGE.toString()).addConstraintViolation();
+            if (isValid) {
+                boolean isChallenge = memberCommandService.isChallengeMission(value);
+
+                if(isChallenge) {
+                    context.disableDefaultConstraintViolation();
+                    context.buildConstraintViolationWithTemplate(ErrorStatus.MEMBERMISSION_CHALLENGE.toString()).addConstraintViolation();
+                    return !isChallenge;
+                }else{
+                    context.disableDefaultConstraintViolation();
+                    context.buildConstraintViolationWithTemplate(ErrorStatus.MEMBERMISSION_COMPLETE.toString()).addConstraintViolation();
+                    return !isChallenge;
+                }
+            }
+            return !isValid;
         }
-        return false;
+
+//        // 미션아이디를 넣어 해당하는 멤버미션이 있는 지 확인
+//        boolean isValid = memberCommandService.existMemberMission(value);
+//
+//        //미션 아이디를 넣고 멤버 1과 겹치는 멤버미션이 있는지 확인하고 도전중이 아니면 false
+////        boolean isChallenge = memberCommandService.isChallengeMission(value);
+//
+//        if (isValid) {
+//            boolean isChallenge = memberCommandService.isChallengeMission(value);
+//
+//            if(isChallenge) {
+//                context.disableDefaultConstraintViolation();
+//                context.buildConstraintViolationWithTemplate(ErrorStatus.MEMBERMISSION_CHALLENGE.toString()).addConstraintViolation();
+//            }
+//        }
+//        return isValid;
     }
 }

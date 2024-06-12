@@ -39,8 +39,9 @@ public enum ErrorStatus implements BaseErrorCode {
 
     Mission_ID_NOT_FOUND(HttpStatus.BAD_REQUEST, "MISSION4001", "해당 미션이 없습니다."),
 
-    MEMBERMISSION_NOT_FOUND(HttpStatus.BAD_REQUEST, "STORE4001", "해당 멤버미션이 없습니다."),
-    MEMBERMISSION_CHALLENGE(HttpStatus.BAD_REQUEST, "STORE4001", "해당 멤버미션이 도전 중입니다.");
+    MEMBERMISSION_NOT_FOUND(HttpStatus.BAD_REQUEST, "MEMBERMISSION4001", "해당 멤버미션이 없습니다."),
+    MEMBERMISSION_CHALLENGE(HttpStatus.BAD_REQUEST, "MEMBERMISSION4002", "해당 멤버미션이 도전 중입니다."),
+    MEMBERMISSION_COMPLETE(HttpStatus.BAD_REQUEST, "MEMBERMISSION4003", "해당 멤버미션을 이미 완료했습니다.");
 
     private final HttpStatus httpStatus;
     private final String code;

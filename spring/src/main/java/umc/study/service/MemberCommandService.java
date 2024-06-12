@@ -10,6 +10,8 @@ import umc.study.web.dto.ReviewRequestDTO;
 public interface MemberCommandService {
     boolean existMemberId(Long id);
 
+    boolean existMission(Long id);
+
     boolean existMemberMission(Long id);
 
     boolean isChallengeMission(Long missionId);
