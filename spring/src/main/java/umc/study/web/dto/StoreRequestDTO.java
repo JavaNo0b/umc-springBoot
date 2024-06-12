@@ -8,7 +8,7 @@ import umc.study.domain.Region;
 public class StoreRequestDTO {
 
     @Getter
-    public static class JoinDTO{
+    public static class JoinStoreDTO{
         @NotNull
         String name;
         @NotNull

@@ -22,7 +22,7 @@ public class StoreServiceImpl implements StoreService{
 
     @Override
     @Transactional
-    public Store joinStore(StoreRequestDTO.JoinDTO request, Long regionId){
+    public Store joinStore(StoreRequestDTO.JoinStoreDTO request, Long regionId){
 
         Region region = regionRepository.findById(regionId).orElseThrow(() -> new GeneralException(ErrorStatus.REGION_ID_NOT_FOUND));
 
