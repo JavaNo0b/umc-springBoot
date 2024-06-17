@@ -24,28 +24,25 @@ public class MissionStatusCheckValidator implements ConstraintValidator<CheckMis
 
         boolean isMissionValid = memberCommandService.existMission(value);
 
+        // 해당 미션이 있는지 확인
         if (!isMissionValid) {
             context.disableDefaultConstraintViolation();
             context.buildConstraintViolationWithTemplate(ErrorStatus.Mission_ID_NOT_FOUND.toString()).addConstraintViolation();
-            return isMissionValid;
+            return false;
         }else{
             // 미션아이디를 넣어 해당하는 멤버미션이 있는 지 확인
             boolean isValid = memberCommandService.existMemberMission(value);
 
             if (isValid) {
                 boolean isChallenge = memberCommandService.isChallengeMission(value);
-
+                // 도전 중인 미션인지 확인(도전 중이면 에러, 도전 완료면 추가)
                 if(isChallenge) {
                     context.disableDefaultConstraintViolation();
                     context.buildConstraintViolationWithTemplate(ErrorStatus.MEMBERMISSION_CHALLENGE.toString()).addConstraintViolation();
-                    return !isChallenge;
-                }else{
-                    context.disableDefaultConstraintViolation();
-                    context.buildConstraintViolationWithTemplate(ErrorStatus.MEMBERMISSION_COMPLETE.toString()).addConstraintViolation();
-                    return !isChallenge;
+                    return false;
                 }
             }
-            return !isValid;
+            return true;
         }
 
 //        // 미션아이디를 넣어 해당하는 멤버미션이 있는 지 확인

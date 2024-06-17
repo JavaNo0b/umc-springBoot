@@ -14,7 +14,6 @@ import java.util.List;
 public interface MemberMissionRepository extends JpaRepository<MemberMission, Long> {
     boolean existsMemberMissionByMissionId(Long missionId);
     MemberMission findMemberMissionByMemberIdAndMissionId(Long memberId, Long missionId);
-    List<MemberMission> findAllByMemberIdAndStatus(Long memberId, MissionStatus status);
 
     Page<MemberMission> findAllByMemberIdAndStatus(Long memberId, MissionStatus status, PageRequest pageRequest);
 }
