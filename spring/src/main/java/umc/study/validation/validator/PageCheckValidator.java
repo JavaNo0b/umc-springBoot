@@ -22,11 +22,14 @@ public class PageCheckValidator implements ConstraintValidator<CheckPage, Intege
     @Override
     public boolean isValid(Integer page, ConstraintValidatorContext context) {
 
+
+
         if (page < 0){
             context.disableDefaultConstraintViolation();
             context.buildConstraintViolationWithTemplate(ErrorStatus.PAGE_NOT_EXIST.toString()).addConstraintViolation();
             return false;
         }
+
 
         return true;
     }
