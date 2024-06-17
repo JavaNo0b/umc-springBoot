@@ -1,6 +1,7 @@
 package umc.study.converter;
 
 import org.springframework.data.domain.Page;
+import umc.study.domain.Mission;
 import umc.study.domain.Region;
 import umc.study.domain.Review;
 import umc.study.domain.Store;
@@ -51,6 +52,30 @@ public class StoreConverter {
                 .totalElements(reviewList.getTotalElements())
                 .listSize(reviewPreViewDTOList.size())
                 .reviewList(reviewPreViewDTOList)
+                .build();
+    }
+
+    public static StoreResponseDTO.MissionDTO toMissionDTO(Mission mission) {
+        return StoreResponseDTO.MissionDTO.builder()
+                .storeName(mission.getStore().getName())
+                .missionSpec(mission.getMissionSpec())
+                .reward(mission.getReward())
+                .deadLine(mission.getDeadline())
+                .build();
+    }
+
+    public static StoreResponseDTO.MissionListDTO toMissionListDTO(Page<Mission> missionList) {
+
+        List<StoreResponseDTO.MissionDTO> missionDTOList = missionList.stream()
+                .map(StoreConverter::toMissionDTO).collect(Collectors.toList());
+
+        return StoreResponseDTO.MissionListDTO.builder()
+                .isLast(missionList.isLast())
+                .isFirst(missionList.isFirst())
+                .totalPage(missionList.getTotalPages())
+                .totalElements(missionList.getTotalElements())
+                .listSize(missionDTOList.size())
+                .missionList(missionDTOList)
                 .build();
     }
 

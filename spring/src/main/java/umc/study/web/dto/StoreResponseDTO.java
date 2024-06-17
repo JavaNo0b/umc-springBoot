@@ -46,4 +46,30 @@ public class StoreResponseDTO {
         String body;
         LocalDate createdAt;
     }
+
+    // 미션 목록 리스트 조회(페이징)
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class MissionListDTO{
+        List<MissionDTO> missionList;
+        Integer listSize;
+        Integer totalPage;
+        Long totalElements;
+        Boolean isFirst;
+        Boolean isLast;
+    }
+
+    //가게의 미션
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class MissionDTO{
+        String storeName;
+        String missionSpec;
+        Integer reward;
+        LocalDate deadLine;
+    }
 }
