@@ -41,7 +41,10 @@ public enum ErrorStatus implements BaseErrorCode {
 
     MEMBERMISSION_NOT_FOUND(HttpStatus.BAD_REQUEST, "MEMBERMISSION4001", "해당 멤버미션이 없습니다."),
     MEMBERMISSION_CHALLENGE(HttpStatus.BAD_REQUEST, "MEMBERMISSION4002", "해당 멤버미션이 도전 중입니다."),
-    MEMBERMISSION_COMPLETE(HttpStatus.BAD_REQUEST, "MEMBERMISSION4003", "해당 멤버미션을 이미 완료했습니다.");
+    MEMBERMISSION_COMPLETE(HttpStatus.BAD_REQUEST, "MEMBERMISSION4003", "해당 멤버미션을 이미 완료했습니다."),
+
+    // 페이징 에러
+    PAGE_NOT_EXIST(HttpStatus.BAD_REQUEST, "PAGE001", "페이지가 0 이하입니다.");
 
     private final HttpStatus httpStatus;
     private final String code;
