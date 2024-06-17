@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import umc.study.apiPayload.ApiResponse;
 import umc.study.converter.StoreConverter;
@@ -16,10 +17,12 @@ import umc.study.domain.Review;
 import umc.study.domain.Store;
 import umc.study.service.StoreQueryService;
 import umc.study.service.StoreService;
+import umc.study.validation.annotation.CheckPage;
 import umc.study.validation.annotation.ExistStore;
 import umc.study.web.dto.StoreRequestDTO;
 import umc.study.web.dto.StoreResponseDTO;
 
+@Validated
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/stores")
@@ -51,7 +54,7 @@ public class StoreRestController {
             @Parameter(name = "page", description = "페이지 번호, 0번이 1 페이지 입니다."),
     })
     public ApiResponse<StoreResponseDTO.ReviewPreViewListDTO> getReviewList(@ExistStore @PathVariable(name = "storeId") Long storeId,
-                                                                            @RequestParam(name = "page") Integer page) {
+                                                                            @CheckPage @RequestParam(name = "page") Integer page) {
         Page<Review> StorePage = storeQueryService.getReviewList(storeId, page);
         return ApiResponse.onSuccess(StoreConverter.toReviewPreViewListDTO(StorePage));
     }
